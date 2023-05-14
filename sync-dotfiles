@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cat .tmux.conf > ~/.tmux.conf
-cat .bash_aliases > ~/.bash_aliases
