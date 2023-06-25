@@ -27,3 +27,4 @@ systemd
 update-notifier
 user-dirs.dirs
 user-dirs.locale
+*.log
