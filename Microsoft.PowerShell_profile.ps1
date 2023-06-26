@@ -7,7 +7,7 @@ function prompt {
 }
 
 function ga { git add . }
-function gp { git pull }
+function gp { git push }
 function gs { git status }
 
 function gc($msg) {
