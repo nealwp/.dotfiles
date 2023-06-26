@@ -8,10 +8,13 @@ function prompt {
 
 function ga { git add . }
 function gp { git pull }
-function gP { git push }
 function gs { git status }
 
 function gc($msg) {
     git commit -m ""$msg"" 
+}
+
+function gac($msg) {
+    git add . && git commit -m ""$msg""
 }
 
