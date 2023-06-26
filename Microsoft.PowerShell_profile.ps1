@@ -18,3 +18,4 @@ function gac($msg) {
     git add . && git commit -m ""$msg""
 }
 
+function gpu() { git push -u origin (git branch --show-current) }
