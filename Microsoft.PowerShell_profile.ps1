@@ -1,4 +1,5 @@
 del alias:gc -Force
+del alias:gp -Force
 
 function prompt {
     $p = Split-Path -leaf -path (Get-Location)
