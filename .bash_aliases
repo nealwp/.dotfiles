@@ -1,5 +1,6 @@
 #!/bin/bash
 alias vim=nvim
+alias python=python3
 alias ll='ls -alF --group-directories-first'
 alias ga='git add .'
 alias gp='git push'
