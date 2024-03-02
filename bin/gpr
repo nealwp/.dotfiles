@@ -1,0 +1,74 @@
+#!/bin/bash
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "ERROR: not in a git repository."
+    exit 1
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+    echo "ERROR: jq is required but not installed."
+    exit 1
+fi
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+if [[ "$BRANCH" == "main" || "$HEAD" == "master" || "$HEAD" == "HEAD" ]]; then
+    echo "ERROR: pr from branch $BRANCH is not allowed."
+    exit 1
+fi
+
+REMOTE_URL=$(git remote get-url origin)
+
+if [[ $REMOTE_URL == https://github.com/* ]]; then
+    REMOTE_URL=${REMOTE_URL#https://github.com/}
+elif [[ $REMOTE_URL == git@github.com:* ]]; then
+    REMOTE_URL=${REMOTE_URL#git@github.com:}
+else
+    echo "ERROR: origin url format not recognized."
+    exit 1
+fi
+
+OWNER=$(echo $REMOTE_URL | cut -d'/' -f1)
+REPO=$(echo $REMOTE_URL | cut -d'/' -f2 | sed 's/.git$//')
+BASE="main"
+EDITOR="${EDITOR:-vi}"
+
+BODY_FILE=$(mktemp --suffix=.md)
+echo -e "$BRANCH\n" > $BODY_FILE
+trap "rm -f $BODY_FILE" EXIT
+
+$EDITOR $BODY_FILE
+
+TITLE=$(head -n 1 $BODY_FILE)
+BODY=$(tail -n +2 $BODY_FILE)
+
+if [ -z "$TITLE" ]; then
+    echo "ERROR: pr title is empty."
+    exit 1
+fi
+
+TITLE_ESCAPED=$(jq -aRs . <<< "$TITLE")
+BODY_ESCAPED=$(jq -aRs . <<< "$BODY")
+
+JSON_PAYLOAD=$(jq -n \
+    --arg title "$TITLE_ESCAPED" \
+    --arg body "$BODY_ESCAPED" \
+    --arg head "$BRANCH" \
+    --arg base "$BASE" \
+    '{title: ($title | fromjson), body: ($body | fromjson), head: $head, base: $base}')
+
+
+RESPONSE_FILE=$(mktemp --suffix=.json)
+trap "rm -f $RESPONSE_FILE" EXIT
+
+RESPONSE=$(curl -s -X POST -H "Authorization: token $NPM_TOKEN" -H "Accept: application/vnd.github.v3+json" \
+     https://api.github.com/repos/$OWNER/$REPO/pulls \
+     -d "$JSON_PAYLOAD" > $RESPONSE_FILE)
+
+ERROR=$(jq -r '.message // empty' $RESPONSE_FILE)
+
+if [ -n "$ERROR" ]; then
+    jq '.' $RESPONSE_FILE
+else
+    jq -r '.html_url' $RESPONSE_FILE
+fi
