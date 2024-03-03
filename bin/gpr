@@ -10,6 +10,11 @@ if ! command -v jq >/dev/null 2>&1; then
     exit 1
 fi
 
+if [ -z "${NPM_TOKEN}" ]; then
+    echo "ERROR: GitHub token is not set as environment variable."
+    exit 1
+fi
+
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 if [[ "$BRANCH" == "main" || "$HEAD" == "master" || "$HEAD" == "HEAD" ]]; then
