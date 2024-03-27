@@ -24,6 +24,7 @@ HISTSIZE= HISTFILESIZE=
 # shell options
 shopt -s histappend
 shopt -s checkwinsize
+shopt -s autocd
 
 # enable bash completiong
 if ! shopt -oq posix; then
