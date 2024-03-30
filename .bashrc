@@ -76,15 +76,16 @@ alias egrep='egrep --color=auto'
 
 # editor aliases
 alias vim='$EDITOR'
-alias v='$EDITOR .'
+alias v='$EDITOR'
 
 # git aliases
+alias g='git'
 alias ga='git add .'
 alias gac='git add . && git commit -m'
 alias gba='git branch -a'
 alias gc='git checkout'
 alias gcb='git checkout -b'
-alias gp='git push'
-alias gP='git pull'
-alias gpu='git push -u origin $(git branch --show-current)'
+alias gp='git pull'
+alias gP='git push'
+alias gPu='git push -u origin $(git branch --show-current)'
 alias gs='git status'
