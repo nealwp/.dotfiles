@@ -1,6 +1,2 @@
 #!/bin/bash
-mkdir -p ~/.vim/pack/themes/start
-cd ~/.vim/pack/themes/start
-git -C $HOME/.vim/pack/themes/start clone https://github.com/tomasiser/vim-code-dark
-
 ln -s ${PWD}/.vimrc ~/.vimrc
