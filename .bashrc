@@ -89,6 +89,10 @@ alias gp='git pull'
 alias gP='git push'
 alias gPu='git push -u origin $(git branch --show-current)'
 alias gs='git status'
+alias gd='git diff'
+
+# tmux aliases
+alias t='tmux a || tmux'
 
 # python aliases
 alias sva='source .venv/bin/activate'

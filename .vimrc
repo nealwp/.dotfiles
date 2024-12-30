@@ -1,10 +1,6 @@
 syntax enable
 
-let g:codedark_modern=1
-" Activates italicized comments (make sure your terminal supports italics)
-let g:codedark_italics=1
-
-colo codedark 
+colorscheme slate
 
 highlight Normal ctermbg=black
 highlight LineNr ctermfg=darkgrey ctermbg=black
@@ -50,13 +46,7 @@ nnoremap  <leader>w :w<CR>
 nnoremap  <leader>q :q<CR>
 
 " quit vim without saving  leader Q
-nnoremap  <leader>Q :q!<CR>
-
-" command mode with leader c
-nnoremap  <leader>c :
-
-" command line with leader C
-nnoremap  <leader>C :!
+nnoremap  <leader>qq :q!<CR>
 
 " yank to * with leader y
 vnoremap <leader>y +y
