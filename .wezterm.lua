@@ -70,8 +70,17 @@ local function sessionizer(window, pane)
     )
 end
 
+
 local config = wezterm.config_builder()
 
+local mocha = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
+mocha.background = '#11111b'
+
+config.color_schemes = {
+    ['Catppuccin Mocha'] = mocha
+}
+
+config.color_scheme = 'Catppuccin Mocha'
 config.default_prog = { 'c:/Program Files/Git/bin/bash.exe', '--login' }
 config.font = wezterm.font('CaskaydiaMono NF', { weight = 'Regular' })
 config.font_size = 10.5
@@ -81,7 +90,6 @@ config.show_new_tab_button_in_tab_bar = false
 config.window_decorations = 'RESIZE'
 config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
 config.status_update_interval = 500
-config.color_scheme = 'Catppuccin Mocha'
 config.window_padding = {
     left = 1,
     right = 1,
